@@ -1,0 +1,42 @@
+{
+  "models": {
+    "breakdowndetect": {
+      "title": "Прогноз поломки оборудования",
+      "fields": {
+        "Air temperature [K]": "Температура воздуха",
+        "Process temperature [K]": "Температура процесса",
+        "Rotational speed [rpm]": "Скорость вращения",
+        "Torque [Nm]": "Крутящий момент",
+        "Tool wear [min]": "Нагрев инструмента"
+      }
+    },
+    "defectdetect": {
+      "title": "Прогноз брака на производстве",
+      "fields": {
+        "machine_temp": "Температура станка",
+        "vibration":  "Вибрация, у.е.",
+        "pressure": "Давление, бар",
+        "tool_speed": "Скорость инструмента, об/мин",
+        "material_density": "Плотность материала, г/см",
+        "coating_thickness": "Толщина покрытия, мм",
+        "shop_temp":  "Температура цеха",
+        "shop_humidity": "Влажность цеха, %",
+        "machine_hours": "Часы работы станка",
+        "process_cycles":  "Циклы обработки"
+      }
+    },
+    "delaydetect": {
+      "title": "Прогноз задержки поставок",
+      "fields": {
+        "order_fulfillment_status": "Статус выполнения заказа",
+        "weather_condition_severity": "Суровость погоды",
+        "supplier_reliability_score": "Надёжность поставщика",
+        "route_risk_level": "Уровень риска маршрута",
+        "customs_clearance_time": "Ср./время обслуживания клиента",
+        "disruption_likelihood_score": "Вероятность срыва заказа",
+        "delay_probability": "Вероятность задержки",
+        "delivery_time_deviation": "Реальная задержка (в днях)"
+      }
+    }
+  }
+}

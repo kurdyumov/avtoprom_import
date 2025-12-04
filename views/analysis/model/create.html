@@ -1,0 +1,33 @@
+{% extends 'index.html' %}
+{% block content %}
+<h3>Параметры модели</h3>
+<ul>
+    <li><a href="{{ url_for('analysis.index') }}" class="back">Назад</a></li>
+</ul>
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    <div>
+        {{ form.title_imf.label }} {{ form.title_imf() }}
+    </div>
+    <div>
+        {{ form.target_imf.label }} {{ form.target_imf() }}
+    </div>
+    <div>
+        {{ form.method_imf.label }} {{ form.method_imf() }}
+    </div>
+    <fieldset>
+        <legend>Ассоциация модели с источником</legend>
+        {% for field in form.mapped_value %}
+        <div>
+            {{ field.label }}{{ field() }}
+        </div>
+        {% endfor %}
+    </fieldset>
+    <div>
+        {{ form.submit_imf() }}
+        {% if has_permission(['model.delete']) and model_id %}
+            {{ form.delete_imf() }}
+        {% endif %}
+    </div>
+</form>
+{% endblock content %}

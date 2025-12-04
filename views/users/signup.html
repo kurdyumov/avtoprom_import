@@ -1,0 +1,57 @@
+{% extends 'index.html' %}
+{% block content %}
+
+<h3>Страница регистрации</h3>
+<ul>
+    <a href="/users" class="back">Назад</a>
+</ul>
+<form action="" method="post" id="single_signup">
+    <h4>Новый сотрудник</h4>
+    {{ form.hidden_tag() }}
+    <div>
+        {{ form.lastname_sf.label }} {{ form.lastname_sf() }}
+    </div>
+    <div>
+        {{ form.firstname_sf.label }} {{ form.firstname_sf() }}
+    </div>
+    <div>
+        {{ form.patronymic_sf.label }} {{ form.patronymic_sf() }}
+    </div>
+    <div>
+        {{ form.emp_num_sf.label }} {{ form.emp_num_sf() }}
+    </div>
+    <div>
+        {{ form.submit_sf() }}
+    </div>
+</form>
+{% if file_path %}
+<p>теперь можно скачать учётную запись пользователя</p>
+<form action="" method="post">
+    {{ exportform.hidden_tag() }}
+    {{ exportform.submit_e() }}
+</form>
+{% endif %}
+
+<form action="" method="post" enctype="multipart/form-data">
+        <h4>Импорт из файла</h4>
+        {{ csvform.hidden_tag() }}
+        <div>
+            {{ csvform.excel_file_esf.label }}<br>{{ csvform.excel_file_esf() }}
+        </div>
+        <div>
+            {{ csvform.submit_esf() }}
+        </div>
+    </form>
+{% if file_path and not single %}
+<form action="" method="post">
+    <h4>Пользователи сохранены в .csv</h4>
+    {{ exportform.hidden_tag() }}
+    {{ exportform.submit_e() }}
+</form>
+{% endif %}
+<script>
+    $('#submit_sf').on('submit', function (e) {
+        location.href = '/users';
+    });
+</script>
+{% endblock content %}

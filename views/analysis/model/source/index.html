@@ -1,0 +1,50 @@
+{% extends 'index.html' %}
+{% block content %}
+<h3>Источники данных</h3>
+<ul class="menu">
+   <li><a href="{{ url_for('analysis.index') }}">К моделям</a></li>
+   {% if has_permission(['source.create']) %}
+      <li><a href="{{ url_for('model_source.create') }}">Добавить источник</a></li>
+   {% endif %}
+   {% if has_permission(['analysis.reports']) %}
+      <li><a href="{{ url_for('reports.index') }}">Архив отчётов</a></li>
+   {% endif %}
+</ul>
+{% if sources %}
+<table>
+   <thead>
+      <tr>
+         <th>ID</th>
+         <th>Источник</th>
+         <th>Тип</th>
+         {% if has_permission(['source.select']) %}<th></th>{% endif %}
+      </tr>
+   </thead>
+   <tbody>
+      {% for k, s in sources.items() %}
+      <tr>
+         <td>{{ k }}</td>
+         <td>
+         {% if s['source']['type'] == 'form' %}
+            <a href="{{ url_for('model_source.pass_form_type', form_id=k) }}">{{ s.title }}</a>
+         {% else %}{{ s.title }}{% endif %}
+         </td>
+         <td>
+            {% if s['source']['type'] == 'form' %}Форма
+            {% elif s['source']['type'] == 'json' %}Web-запрос
+            {% elif s['source']['type'] == 'sql' %}СУБД
+            {% else %}Не опознано{% endif %}
+         </td>
+         {% if has_permission(['source.select']) %}
+         <td>
+<!--            <button type="button" onclick="window.location.href='{{ url_for('model_source.create', source_id=k) }}'">...</button>-->
+<!--            <a href="{{ url_for('model_source.create', source_id=k) }}" class="button">...</a>-->
+            <a href="{{ url_for('model_source.select', task=k) }}" class="button">...</a>
+         </td>
+         {% endif %}
+      </tr>
+      {% endfor %}
+   </tbody>
+</table>
+{% endif %}
+{% endblock content %}

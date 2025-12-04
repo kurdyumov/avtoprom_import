@@ -1,0 +1,30 @@
+{% extends 'index.html' %}
+{% block content %}
+<h3>Telegram-бот</h3>
+
+{% if read_bot %}
+<table>
+    <tr>
+        <th>ID</th>
+        <td>{{ read_bot["result"]["id"] }}</td>
+    </tr>
+    <tr>
+        <th>Название</th>
+        <td>{{ read_bot["result"]["first_name"] }}</td>
+    </tr>
+</table>
+{% else %}
+    <p>Telegram бот не привязан</p>
+{% endif %}
+
+<form action="" method="post">
+    {{ token_form.hidden_tag() }}
+    <div>
+        {{ token_form.token_bid.label }}{{ token_form.token_bid() }}
+    </div>
+    <div>
+        {{ token_form.remove_bid() }}
+        {{ token_form.submit_bid() }}
+    </div>
+</form>
+{% endblock content %}

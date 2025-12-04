@@ -1,0 +1,32 @@
+{% extends 'index.html' %}
+{% block content %}
+<h3>Управление группами и ролями</h3>
+<ul>
+    <li><a href="/roles/create">Создать роль</a></li>
+</ul>
+<table>
+    <thead>
+        <tr>
+            {% for k in titles %}
+            <th>{{ titles[k] }}</th>
+            {% endfor %}
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in roles %}
+        <tr>
+            {% for k,v in titles.items() %}
+            <td>{{ row[k] }}</td>
+            {% endfor %}
+            <td>
+<!--                <form class="button" action="{{ url_for('roles.edit_role', role=row['role_id']) }}" method="post">-->
+                <form class="button" action="{{ url_for('roles.select_role', role=row['role_id']) }}" method="post">
+                    <button type="submit">...</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock content %}

@@ -1,0 +1,47 @@
+{% extends 'index.html' %}
+{% block content %}
+<h3>{% if me %}Мой профиль{% else %}Профиль сотрудника{% endif %}</h3>
+<a href="{% if me %}/{% else %}/users{% endif %}">Назад</a>
+<div class="block">
+    <h4>Профиль</h4>
+    <table>
+        <tr>
+            <th>ID</th>
+            <td>{{ profile.user_id }}</td>
+        </tr>
+        <tr>
+            <th>Фамилия</th>
+            <td>{{ profile.lastname }}</td>
+        </tr>
+        <tr>
+            <th>Имя</th>
+            <td>{{ profile.firstname }}</td>
+        </tr>
+        <tr>
+            <th>Отчество</th>
+            <td>{{ profile.patronymic }}</td>
+        </tr>
+        <tr>
+            <th>Номер сотрудника</th>
+            <td>{{ profile.emp_num }}</td>
+        </tr>
+        <tr>
+            <th>Логин</th>
+            <td>{{ profile.login }}</td>
+        </tr>
+    </table>
+    {% if has_permission(['users.edit']) or me %}
+        <form action="{{ url_for('profile.edit_my_profile' if me else 'profile.edit_profile', login=profile['login'], user_id=profile['user_id'], me=me) }}" method="post">
+            <button type="submit">Редактировать</button>
+        </form>
+    {% endif %}
+</div>
+<div class="block">
+    <h4>Роли</h4>
+    {% if roles %}
+    <ul class="regular">
+        {% for r in roles %}<li>{{ r }}</li>{% endfor %}
+    </ul>
+    {% else %}Пользователь не имеет ролей{% endif %}
+</div>
+{% endblock content %}

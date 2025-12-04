@@ -1,0 +1,19 @@
+{% extends 'index.html' %}
+{% block content %}
+<h3>Объект: "{{ title }}"</h3>
+<a href="{{ url_for('model_source.index') }}" class="back">Назад</a>
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    <fieldset>
+        <legend>Внос показания {поле_запроса: показание}</legend>
+        {% for field in form.values_irimf %}
+            <div>
+                {{ field.label }}{{ field() }}
+            </div>
+        {% endfor %}
+        <div>
+            {{ form.submit_irimf() }}
+        </div>
+    </fieldset>
+</form>
+{% endblock content %}

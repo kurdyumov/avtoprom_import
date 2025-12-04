@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Мониторинг станков</title>
+    <!-- Локальное подключение jQuery -->
+    <script src="{{ url_for('static', filename='js/jquery-3.7.1.min.js') }}"></script>
+</head>
+<body>
+    <h1>Мониторинг производства автозапчастей</h1>
+    <form method="POST" id="monitor-form">
+        {{ form.hidden_tag() }}
+        <label>{{ form.product_type.label }}</label>
+        {{ form.product_type(id='product-type') }}<br>
+        {{ form.submit }}
+    </form>
+    <div id="machines-container">
+        {% for machine in machines %}
+            <div>
+                <h3>Станок {{ machine.UDI }}</h3>
+                <p>Температура процесса: {{ machine.process_temperature }} К</p>
+                <p>Износ инструмента: {{ machine.tool_wear }} мин</p>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $('#product-type').change(function() {
+                var productType = $(this).val();
+                $.ajax({
+                    url: '/update_data',
+                    type: 'POST',
+                    data: { product_type: productType },
+                    success: function(response) {
+                        $('#machines-container').html(response.machines_html);
+                    },
+                    error: function(error) {
+                        console.log('Ошибка:', error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

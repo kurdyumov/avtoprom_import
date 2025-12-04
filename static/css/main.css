@@ -1,0 +1,171 @@
+p.popup {
+	position: fixed;
+	background: #253237;
+	width: fit-content;
+	min-width: 300px;
+	max-width: 40vw;
+	left: 50%;
+	right: 50%;
+	transform: translate(-50%, 0);
+	padding: 10px;
+	border-radius: 5px;
+	color: #E0FBFC;
+}
+p.popup.error {
+    background: crimson;
+}
+p.popup.success {
+    background: green;
+}
+
+fieldset, legend {
+    margin: 5px;
+    background: #9DB4C0;
+}
+legend {
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 5px;
+}
+body {
+    margin: 0;
+    padding: 0;
+    font-size: 120%;
+    font-family: 'Arial', sans-serif;
+    background: #F3D8C7;
+}
+nav ul {
+    margin: 0;
+}
+ul li {
+    list-style-type: none;
+}
+ul.regular li {
+    list-style-type: disc;
+}
+button[type="submit"] {
+    background: #5C6B73;
+    color: #FBFEFB;
+    cursor: pointer;
+}
+div.block {
+    background: #D0B8AC;
+    margin: 30px;
+    width: fit-content;
+}
+div.block * {
+    margin: 10px;
+}
+nav {
+    background: #D0B8AC;
+    width: 100%;
+    margin: 0;
+}
+content table {
+    margin-left: 30px;
+}
+content > form, content > div > form {
+    background: #D0B8AC;
+    display: grid;
+    grid-template-columns: 1fr 1fr
+    gap: 10px;
+    margin: 20px;
+    padding: 10px
+}
+div.flex {
+    display: flex;
+}
+h3{
+    margin: 30px;
+}
+fieldset, form {
+	width: fit-content;
+	display: flex;
+    flex-direction: column;
+}
+fieldset div, form div {
+    display: flex;
+    justify-content: space-between;
+}
+a {
+    padding: 5px;
+}
+nav a {
+    background: #5C6B73;
+    color: #FBFEFB;
+    border-radius: 5px;
+    text-decoration: none;
+}
+content a {
+    color: #253237;
+}
+nav ul {
+    display: flex;
+}
+nav ul li {
+    margin: 15px 10px;
+}
+h4 {
+    margin: 10px 0;
+    padding: 0;
+}
+td, th {
+    text-align: center;
+    border: 1px solid black;
+    padding: 5px;
+}
+table {
+    background: #9DB4C0;
+}
+th, a.button {
+    background: #5C6B73;
+    color: #E0FBFC;
+}
+td {
+    background: #9DB4C0;
+}
+td button {
+
+}
+table form {
+    margin: 10px;
+}
+form button[type=submit] {
+    align-self: right;
+}
+label, input {
+    margin: 5px;
+}
+td a {
+    color: #006363;
+}
+div.checkboxes {
+    display: block;
+}
+content p, content > a {
+    margin-left: 30px;
+}
+input, select {
+    background: #C2DFE3;
+    padding: 5px;
+    border-radius: 4px;
+}
+input[type="submit"] {
+    background: #9DB4C0;
+}
+a.button {
+    text-decoration: none;
+    margin: 0;
+}
+table td:has(> a.button) {
+    padding: 0;
+}
+ul.menu {
+
+}
+ul.menu li {
+    margin: 0;
+    padding: 5px;
+}
+ul.menu li a {
+}

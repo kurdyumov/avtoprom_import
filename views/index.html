@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <script src="{{ url_for('static', filename='js/jquery-3.7.1.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+<body>
+<nav>
+    {% with messages = get_flashed_messages(with_categories=True) %}
+       {% if messages %}
+          {% for st, message in messages %}
+             <p class="popup {{ st }}">{{ message }}</p>
+          {% endfor %}
+       {% endif %}
+    {% endwith %}
+    <ul>
+        <li><a href="/">Навигатор</a></li>
+        {% if has_permission(None) %}
+            <li><a href="/profile/me">Профиль</a></li>
+            <li><a href="/users/logout">Выход</a></li>
+        {% endif %}
+    </ul>
+</nav>
+<content>{% block content %}{% endblock content %}</content>
+<script>
+   $(document).ready(function() {
+       $(document).ajaxSuccess(function (event, xhr, settings) {
+            let text = xhr.responseJSON.answer;
+            if (text) {
+                console.log(text, 0);
+                send_popup(text, 0);
+            }
+       });
+       $(document).ajaxError(function (event, xhr, settings) {
+            let text = xhr.responseJSON.answer;
+            if (text) {
+                console.log(text, 1);
+                send_popup(text, 1);
+            }
+       });
+   });
+   function send_popup(text, status) {
+      if (text) {
+        console.log('magic');
+        let alert = $('<p>').addClass('popup').text(text);
+        switch (status) {
+            case 0:
+                $(alert).addClass('success');
+                break;
+            case 1:
+                $(alert).addClass('error');
+                break;
+            default:
+                console.log('Некорректный статус', status);
+        }
+        $('nav').prepend(alert);
+      }
+      $('p.popup').each(function() {
+         const popup = $(this);
+         popup.addClass('show'); // Показываем popup
+         setTimeout(function() {
+             popup.hide();
+             setTimeout(function() {
+                 popup.remove(); // Удаляем из DOM
+             }, 500); // Ждём завершения анимации
+         }, 3000); // 3 секунды
+            console.log($(this));
+      });
+   }
+   send_popup();
+</script>
+</body>
+</html>

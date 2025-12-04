@@ -1,0 +1,121 @@
+p.popup {
+	position: absolute;
+	background: #4671D5;
+	width: fit-content;
+	left: 50%;
+	right: 50%;
+	padding: 10px;
+	border-radius: 5px;
+}
+fieldset, legend {
+    margin: 5px;
+    background: #2A4480;
+}
+legend {
+    border: 1px solid white;
+    border-radius: 5px;
+    padding: 5px;
+}
+body {
+    margin: 0;
+    padding: 0;
+    color: white;
+    font-size: 120%;
+}
+nav ul {
+    margin: 0;
+}
+ul li {
+    list-style-type: none;
+}
+body {
+    background: #006363;
+}
+nav {
+    background: #009999;
+    width: 100%;
+    margin: 0;
+}
+content {
+    padding: 10px;
+}
+form {
+    display: grid;
+    grid-template-columns: 1fr 1fr
+    gap: 10px;
+    margin: 20px;
+}
+h3 {
+    margin: 30px;
+}
+fieldset, form {
+	width: fit-content;
+	display: flex;
+    flex-direction: column;
+}
+fieldset div, form div {
+    display: flex;
+    justify-content: space-between;
+}
+a {
+    padding: 5px;
+}
+nav a {
+    background: #006363;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+}
+content a {
+    color: #33CCCC;
+}
+nav ul {
+    display: flex;
+}
+nav ul li {
+    margin: 15px 10px;
+}
+td, th {
+    text-align: center;
+    border: 1px solid white;
+    padding: 5px;
+}
+table {
+    margin-left: 30px;
+}
+th {
+    background: #4671D5;
+}
+td {
+    background: #6C8CD5;
+}
+td button {
+
+}
+table form {
+    margin: 10px;
+}
+form button[type=submit] {
+    align-self: right;
+}
+label, input {
+    margin: 5px;
+}
+td a {
+    color: #006363;
+}
+div.checkboxes {
+    display: block;
+}
+content p, content > a {
+    margin-left: 30px;
+}
+input, select {
+    background: #6C8CD5;
+    padding: 5px;
+    color: white;
+    border-radius: 4px;
+}
+input[type="submit"] {
+
+}

@@ -1,0 +1,40 @@
+{% extends 'index.html' %}
+{% block content %}
+<h3>Новая роль</h3>
+<a href="/roles">Назад</a>
+<form action="" method="post">
+    <div style="display: flex; gap: 50px;">
+        <div style="display: block;">
+            <h4>Описание</h4>
+            {{ form.hidden_tag() }}
+            <div>
+                {{ form.title_crf.label }} {{ form.title_crf() }}
+            </div>
+            <div>
+                {{ form.submit_crf() }}
+            </div>
+            <div class="checkboxes">
+                <h4>{{ form.permissions_crf.label }}</h4>
+                {% for value, label in form.permissions_crf.choices %}
+                    {% if not value == 1 %}
+                    <input type="checkbox" name="{{ form.permissions_crf.name }}"
+                           value="{{ value }}">
+                    {{ label }}<br>
+                    {% endif %}
+                {% endfor %}
+                {% if form.permissions_crf.errors %}
+                    <span style="color: red;">{{ form.permissions_crf.errors[0] }}</span>
+                {% endif %}
+            </div>
+        </div>
+        <div style="display: block;">
+            <h4>Рассылка</h4>
+            {% for value, label in form.broadcast_crf.choices %}
+                <input type="checkbox" name="{{ form.broadcast_crf.name }}"
+                       value="{{ value }}">
+                {{ label }}<br>
+            {% endfor %}
+        </div>
+    </div>
+</form>
+{% endblock content %}

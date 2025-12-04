@@ -1,0 +1,40 @@
+{% extends 'index.html' %}
+{% block content %}
+<h3>Анализ производственных показателей</h3>
+<!--<a href="/model/models/create">Добавить модель</a>-->
+{% if has_permission(['model.create']) %}
+<form action="" method="post" enctype="multipart/form-data">
+    <h4>Новая модель</h4>
+    {{ importcbm.hidden_tag() }}
+    <div>
+        {{ importcbm.model_imf.label }}<br>{{ importcbm.model_imf() }}
+    </div>
+    <div>
+        {{ importcbm.submit_imf() }}
+    </div>
+</form>
+{% endif %}
+
+<ul>
+    <li><a href="{{ url_for('model_source.index') }}">Источники данных</a></li>
+</ul>
+<table>
+    <thead>
+        <tr>
+            <th>Модель</th>
+            <th></th>
+        </tr>
+    </thead>
+    {% if models_json %}
+<!--    <li><a href="/model/models">model</a></li>-->
+        {% for title, model in models_json['models'].items() %}
+        <tr>
+            <td>{% if model['title'] %}{{ model['title'] }}{% else %}{{ title }}{% endif %}</td>
+            <td>
+                <a href="{{ url_for('model.index', model_id=title) }}" class="button">...</a>
+            </td>
+        </tr>
+        {% endfor %}
+    {% endif %}
+</table>
+{% endblock content %}

@@ -1,0 +1,152 @@
+{
+    "models": {
+        "defectdetect1": {
+            "title": "Прогноз брака компонентов",
+            "target": "Будет ли брак",
+            "type": "classification",
+            "fields": {
+                "ProductionVolume": "Объём продукции",
+                "ProductionCost": "Стоимость продукции",
+                "SupplierQuality": "Качество поставщика",
+                "DeliveryDelay": "Задержка доставки",
+                "QualityScore": "Оценка качества",
+                "MaintenanceHours": "Время на обслуживание",
+                "DowntimePercentage": "Процент простоев",
+                "InventoryTurnover": "Оборачив-ть запасов",
+                "StockoutRate": "Частота дефицита",
+                "WorkerProductivity": "Произв-ть работников",
+                "SafetyIncidents": "Число инц. безоп-сти",
+                "EnergyConsumption": "Потребление энергии",
+                "EnergyEfficiency": "Энергоэф-сть",
+                "AdditiveProcessTime": "Время аддит. проц.",
+                "AdditiveMaterialCost": "Стоимость аддит. матер."
+            }
+        },
+        "delaydetect11": {
+            "title": "Прогноз задержки поставок",
+            "target": "Задержка (дни)",
+            "type": "regression",
+            "fields": {
+                "weather_condition_severity": "Суровость погоды",
+                "supplier_reliability_score": "Надёжность поставщика",
+                "route_risk_level": "Уровень риска маршрута",
+                "customs_clearance_time": "Ср/время обслуживания клиента",
+                "disruption_likelihood_score": "Вероятность срыва заказа",
+                "delay_probability": "Вероятность задержки",
+                "delivery_time_deviation": "Реальная задержка"
+            }
+        },
+        "breakdowndetect": {
+            "title": "Прогноз поломки оборудования",
+            "target": "Ожидается ли поломка",
+            "type": "classification",
+            "fields": {
+                "Air temperature [K]": "Температура воздуха",
+                "Process temperature [K]": "Температура процесса",
+                "Rotational speed [rpm]": "Скорость вращения",
+                "Torque [Nm]": "Крутящий момент",
+                "Tool wear [min]": "Нагрев инструмента"
+            }
+        }
+    },
+    "sources": {
+        "0": {
+            "title": "Производство пружин",
+            "model": "defectdetect1",
+            "fields": {
+                "ProductionVolume": "prod_volume",
+                "ProductionCost": "prod_cost",
+                "SupplierQuality": "supl_quality",
+                "DeliveryDelay": "delivery_delay",
+                "QualityScore": "quality_sc",
+                "MaintenanceHours": "mainten_hours",
+                "DowntimePercentage": "downtime_perc",
+                "InventoryTurnover": "inv_turnover",
+                "StockoutRate": "stockout_rate",
+                "WorkerProductivity": "worker_prod",
+                "SafetyIncidents": "safety_incid",
+                "EnergyConsumption": "energy_cons",
+                "EnergyEfficiency": "energy_eff",
+                "AdditiveProcessTime": "add_proc_time",
+                "AdditiveMaterialCost": "add_mater_cost"
+            },
+            "source": {
+                "type": "sql",
+                "db": {
+                    "driver": "mysql",
+                    "host": "localhost",
+                    "port": "3400",
+                    "dbname": "manufacture_inc",
+                    "user": "observer",
+                    "password": "0b53rv3r*",
+                    "query": "select * from manufacturingreport where updated=(select max(updated) from manufacturingreport)",
+                    "freq": 90
+                }
+            }
+        },
+        "2": {
+            "title": "Поставка смазки",
+            "model": "delaydetect11",
+            "fields": {
+                "weather_condition_severity": "weather_roughness",
+                "supplier_reliability_score": "supplier_quality",
+                "route_risk_level": "route_risk",
+                "customs_clearance_time": "custom_clearance_avg",
+                "disruption_likelihood_score": "disruption_rate",
+                "delay_probability": "delay_rate",
+                "delivery_time_deviation": "actual_deviation"
+            },
+            "source": {
+                "type": "form"
+            }
+        },
+        "3": {
+            "title": "Губозакаточный станок 7000",
+            "model": "breakdowndetect",
+            "fields": {
+                "Air temperature [K]": "air_temperature",
+                "Process temperature [K]": "process_temperature",
+                "Rotational speed [rpm]": "rotational_speed",
+                "Torque [Nm]": "torque",
+                "Tool wear [min]": "tool_wear"
+            },
+            "source": {
+                "type": "json",
+                "host": "http://127.0.0.1:5001/request_state",
+                "freq": 90
+            }
+        },
+        "4": {
+            "title": "Шлифователь А_01",
+            "model": "breakdowndetect",
+            "fields": {
+                "Air temperature [K]": "air_temperature",
+                "Process temperature [K]": "process_temperature",
+                "Rotational speed [rpm]": "rotational_speed",
+                "Torque [Nm]": "torque",
+                "Tool wear [min]": "tool_wear"
+            },
+            "source": {
+                "type": "json",
+                "host": "http://127.0.0.1:5001/request_state",
+                "freq": 120
+            }
+        },
+        "5": {
+            "title": "Поставка стальных листов",
+            "model": "delaydetect11",
+            "fields": {
+                "weather_condition_severity": "weather_roughness",
+                "supplier_reliability_score": "supplier_quality",
+                "route_risk_level": "route_risk",
+                "customs_clearance_time": "custom_clearance_avg",
+                "disruption_likelihood_score": "disruption_rate",
+                "delay_probability": "delay_rate",
+                "delivery_time_deviation": "actual_deviation"
+            },
+            "source": {
+                "type": "form"
+            }
+        }
+    }
+}

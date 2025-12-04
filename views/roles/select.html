@@ -1,0 +1,41 @@
+{% extends 'index.html' %}
+{% block content %}
+<h3>Сведения о роли</h3>
+<ul class="menu">
+    <li><a href="{{ url_for('roles.index') }}">Назад</a></li>
+</ul>
+<div class="block">
+    <h4>Описание</h4>
+    <table>
+        <tr>
+            <th>ID</th>
+            <td>{{ role.role_id }}</td>
+        </tr>
+        <tr>
+            <th>Наименование</th>
+            <td>{{ role.title }}</td>
+        </tr>
+    </table>
+    {% if has_permission(['roles.edit']) %}
+        <form class="button" action="{{ url_for('roles.edit_role', role=role.role_id) }}" method="post" style="margin: 0; padding: 0;">
+            <button type="submit">Редактировать</button>
+        </form>
+    {% endif %}
+</div>
+<div class="block">
+    <h4>Привилегии</h4>
+    <ul class="regular">
+        {% for t in perm %}
+        <li>{{ t }}</li>
+        {% endfor %}
+    </ul>
+</div>
+<div class="block">
+    <h4>Рассылка</h4>
+    <ul class="regular">
+        {% for t in bc %}
+        <li>{{ t }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock content %}

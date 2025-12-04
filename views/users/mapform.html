@@ -1,0 +1,29 @@
+{% extends 'index.html' %}
+{% block content %}
+{% if file_path %}
+<script>
+    setTimeout(() => {
+        window.location.href = '{{ route }}';
+    }, 1000); // Задержка в 1 секунду
+</script>
+{% endif %}
+<form action="" method="post">
+    <h4>Сопоставьте поля</h4>
+    {{ mapform.hidden_tag() }}
+    <div>
+        {{ mapform.lastname_emf.label }} {{ mapform.lastname_emf() }}
+    </div>
+    <div>
+        {{ mapform.firstname_emf.label }} {{ mapform.firstname_emf() }}
+    </div>
+    <div>
+        {{ mapform.patronymic_emf.label }} {{ mapform.patronymic_emf() }}
+    </div>
+    <div>
+        {{ mapform.emp_num_emf.label }} {{ mapform.emp_num_emf() }}
+    </div>
+    <div>
+        {{ mapform.submit_emf() }}
+    </div>
+</form>
+{% endblock content %}

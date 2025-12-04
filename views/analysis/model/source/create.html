@@ -1,0 +1,159 @@
+{% extends 'index.html' %}
+{% block content %}
+<style>
+    .hidden {
+        display: none;
+    }
+</style>
+<h3>Настроить подключение</h3>
+<ul>
+    <li><a href="{% if task %}{{ url_for('model_source.select', task=task) }}{% else %}{{ url_for('model_source.index') }}{% endif %}">Назад</a></li>
+</ul>
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    <fieldset>
+        <legend>Наименование</legend>
+    <div>
+        {{ form.title_cmc.label }} {{form.title_cmc() }}
+    </div>
+    <div>
+        {{ form.model_cmc.label }} {{form.model_cmc() }}
+    </div>
+    </fieldset>
+    <fieldset hidden="hidden" id="modelfs"></fieldset>
+    <fieldset>
+        <legend>Соединение</legend>
+        <div>
+            {{ form.type_cmc.label }} {{form.type_cmc() }}
+        </div>
+    </fieldset>
+    <fieldset hidden="hidden" id="sourcefs">
+    </fieldset>
+    <div>
+        {{ form.submit_cmc() }}
+        {% if task %}{{ form.delete_cmc() }}{% endif %}
+    </div>
+</form>
+<script>
+    source_id = null;
+    $(document).ready(function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        source_id = urlParams.get('source_id');
+        console.log(source_id);
+
+        if (source_id) {
+            model_fields(null, source_id);
+            source_types(null, source_id);
+            if (['json', 'sql'].includes($('#type_cmc').val()))
+                $('#submit_cmc').prop("disabled", true);
+        }
+
+        $('#model_cmc').on('change', function (e) {
+            // console.log($(this).val());
+            model_fields($(this).val(), null);
+        });
+        $('#type_cmc').on('change', function () {
+            if ($(this).val() == 'form') {
+                $('#sourcefs').html('').hide();
+                $('#submit_cmc').prop("disabled", false);
+            }
+            else {
+                $('#submit_cmc').prop("disabled", true);
+                source_types($(this).val(), null);
+            }
+        });
+
+        function model_fields(type=null, source_id=null) {
+            $.ajax({
+                url: '/model/source/con_type_fields',
+                method: 'post',
+                data: {
+                    'source_type': type,
+                    'source_id': source_id
+                },
+                success: function(response) {
+                    $('#modelfs').html(response.form).show();
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function source_types(type=null, source_id=null) {
+        $.ajax({
+            url: '/model/source/source_type_fields',
+            method: 'post',
+            data: {
+                'source_type': type,
+                'source_id': source_id
+            },
+            success: function(response) {
+                $('#sourcefs').html(response.html).show();
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    }
+
+    $(document).on('click', 'input[name=sql_settings_cmc-test_ssd]', function (e) {
+        e.preventDefault();
+
+        fields = $('#sourcefs').find('div input, div select');
+        data = {};
+        fields.each(function() {
+           data[this.name] = this.value
+<!--           console.log(this.name, this.value);-->
+        });
+
+        console.log(data);
+
+        let form = $('#sourcefs');
+        $.ajax({
+            url: '/model/source/sql_test',
+            method: 'post',
+            data: data,
+            success: function(response) {
+<!--                console.log(response);-->
+                $('#submit_cmc').prop("disabled", false);
+            },
+            error: function(error) {
+                let res = error.responseJSON;
+<!--                console.log(res.answer, error.status);-->
+                $('#submit_cmc').prop("disabled", true);
+            }
+        });
+    });
+    $(document).on('click', 'input[name=json_settings_cmc-test_jsd]', function (e) {
+        e.preventDefault();
+
+        fields = $('#sourcefs').find('div input, div select');
+        data = {};
+        fields.each(function() {
+           data[this.name] = this.value
+<!--           console.log(this.name, this.value);-->
+        });
+
+        console.log(data);
+
+        $.ajax({
+            url: '/model/source/json_test',
+            method: 'post',
+            data: data,
+            success: function(response) {
+                console.log(response);
+                $('#submit_cmc').prop("disabled", false);
+            },
+            error: function(error) {
+                console.log(error);
+                $('#submit_cmc').prop("disabled", true);
+            }
+        });
+    });
+});
+
+
+
+</script>
+{% endblock content %}

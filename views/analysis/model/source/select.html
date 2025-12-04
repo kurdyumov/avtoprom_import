@@ -1,0 +1,106 @@
+{% extends 'index.html' %}
+{% block content %}
+<h3>Модель</h3>
+<ul class="menu">
+    <li><a href="/model/source">Назад</a></li>
+</ul>
+<div class="block">
+<table>
+    <h4>Описание</h4>
+    <tr>
+        <th>Объект</th>
+        <td>{{ source.title }}</td>
+    </tr>
+    <tr>
+        <th>Модель</th>
+        <td>{{ source.model }}.cbm</td>
+    </tr>
+</table>
+{% if has_permission(['source.edit']) %}
+<form action="{{ url_for('model_source.create', source_id=task) }}" method="post">
+    <button type="submit">Редактировать</button>
+</form>
+{% endif %}
+</div>
+<div class="block">
+<table>
+    <h4>Параметры</h4>
+    <thead>
+    <tr>
+        <th>Модель</th>
+        <th>Источник</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for k,v in source.fields.items() %}
+    <tr>
+        <td>{{ k }}</td>
+        <td>{{ v }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+<div class="block">
+<style>
+    #source td {
+        max-width: 400px;
+    }
+</style>
+<table id="source">
+    <h4>Источник</h4>
+    <tr>
+        {% with s=source.source %}
+            {% if s.type=='form' %}
+            <tr>
+                <th>Способ</th>
+                <td>Через форму</td>
+            </tr>
+            {% elif s.type=='json' %}
+            <tr>
+                <th>Способ</th>
+                <td>Веб-запрос</td>
+            </tr>
+             <tr>
+                <th>Запрос</th>
+                <td>{{ s.host }}</td>
+            </tr>
+            <tr>
+                <th>Частота</th>
+                <td>{{ s.freq }} сек.</td>
+            </tr>
+            {% elif s.type=='sql' %}
+                {% with db=s.db %}
+                <tr>
+                    <th>СУБД</th>
+                    <td>{{ db.driver }}</td>
+                </tr>
+                <tr>
+                    <th>Адрес</th>
+                    <td>{{ db.host }}:{{ db.port}}</td>
+                </tr>
+                <tr>
+                    <th>Имя БД</th>
+                    <td>{{ db.dbname }}</td>
+                </tr>
+                <tr>
+                    <th>Пользователь</th>
+                    <td>{{ db.user }}</td>
+                </tr>
+                <tr>
+                    <th>Запрос</th>
+                    <td>{{ db.query }}</td>
+                </tr>
+                <tr>
+                    <th>Частота</th>
+                    <td>{{ db.freq }} сек.</td>
+                </tr>
+                {% endwith %}
+            {% else %}
+                <p>Некорректный тип источника</p>
+            {% endif %}
+        {% endwith %}
+    </tr>
+</table>
+</div>
+{% endblock content %}

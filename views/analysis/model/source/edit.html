@@ -1,0 +1,132 @@
+{% extends 'index.html' %}
+{% block content %}
+<style>
+    .hidden {
+        display: none;
+    }
+</style>
+<h3>Редактировать</h3>
+<form action="" method="post">
+    {{ form.hidden_tag() }}
+    <div>
+        {{ form.title_cmc.label }} {{form.title_cmc() }}
+    </div>
+    <div>
+        {{ form.model_cmc.label }} {{form.model_cmc() }}
+    </div>
+    <fieldset hidden="hidden" id="modelfs"></fieldset>
+    <div>
+        {{ form.type_cmc.label }} {{form.type_cmc() }}
+    </div>
+    <fieldset hidden="hidden" id="sourcefs">
+    </fieldset>
+    <p>
+        {% with messages = get_flashed_messages() %}
+           {% if messages %}
+              {% for message in messages %}
+                 {{ message }}<br>
+              {% endfor %}
+           {% endif %}
+        {% endwith %}
+    </p>
+    <div>
+        {{ form.submit_cmc() }}
+    </div>
+</form>
+<script>
+    $(document).ready(function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        console.log(urlParams);
+    });
+
+    $('#model_cmc').on('change', function (e) {
+        console.log($(this).val());
+        $.ajax({
+            url: '/model/source/con_type_fields',
+            method: 'post',
+            data: {
+                'source_type': $(this).val()
+            },
+            success: function(response) {
+                $('#modelfs').html(response.form).show();
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
+    $('#type_cmc').on('change', function () {
+        if ($(this).val() == 'form') {
+            $('#sourcefs').html('').hide();
+            $('#submit_cmc').prop("disabled", false);
+        }
+        else {
+            $('#submit_cmc').prop("disabled", true);
+            $.ajax({
+                url: '/model/source/source_type_fields',
+                method: 'post',
+                data: {
+                    'source_type': $(this).val()
+                },
+                success: function(response) {
+                    $('#sourcefs').html(response.html).show();
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+        }
+    });
+    $(document).on('click', 'input[name=sql_settings_cmc-test_ssd]', function (e) {
+        e.preventDefault();
+
+        fields = $('#sourcefs').find('div input, div select');
+        data = {};
+        fields.each(function() {
+           data[this.name] = this.value
+<!--           console.log(this.name, this.value);-->
+        });
+
+<!--        console.log(data);-->
+
+        let form = $('#sourcefs');
+        $.ajax({
+            url: '/model/source/sql_test',
+            method: 'post',
+            data: data,
+            success: function(response) {
+                console.log(response);
+                $('#submit_cmc').prop("disabled", false);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
+    $(document).on('click', 'input[name=json_settings_cmc-test_jsd]', function (e) {
+        e.preventDefault();
+
+        fields = $('#sourcefs').find('div input, div select');
+        data = {};
+        fields.each(function() {
+           data[this.name] = this.value
+<!--           console.log(this.name, this.value);-->
+        });
+
+        console.log(data);
+
+        $.ajax({
+            url: '/model/source/json_test',
+            method: 'post',
+            data: data,
+            success: function(response) {
+                console.log(response);
+                $('#submit_cmc').prop("disabled", false);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
+</script>
+{% endblock content %}

@@ -1,0 +1,48 @@
+{% extends 'index.html' %}
+{% block content %}
+<h3>Модель</h3>
+<ul>
+    <li><a href="{{ url_for('analysis.index') }}">Назад</a></li>
+</ul>
+<div class="block">
+<table>
+    <h4>Описание</h4>
+    <tr>
+        <th>Модель</th>
+        <td>{{ model.title }}</td>
+    </tr>
+    <tr>
+        <th>Файл</th>
+        <td>{{ title }}.cbm</td>
+    </tr>
+    <tr>
+        <th>Цель</th>
+        <td>{{ model.target }}</td>
+    </tr>
+    <tr>
+        <th>Метод</th>
+        <td>{{ model.type }}</td>
+    </tr>
+</table>
+<table>
+    <h4>Параметры</h4>
+    <thead>
+        <th>Параметр</th>
+        <th>Описание</th>
+    </thead>
+    <tbody>
+        {% for k,v in model.fields.items() %}
+        <tr>
+            <td>{{ k }}</td>
+            <td>{{ v }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% if has_permission(['model.edit']) %}
+<form action="{{ url_for('model.edit', model_id=title) }}" method="post">
+    <button type="submit">Редактировать</button>
+</form>
+{% endif %}
+</div>
+{% endblock content %}

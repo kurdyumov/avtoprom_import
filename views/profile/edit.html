@@ -1,0 +1,47 @@
+{% extends 'index.html' %}
+{% block content %}
+<h3>{% if me %}Редактировать мой профиль{% else %}Настройка пользователя{% endif%}</h3>
+<a href="{{ url_for('profile.get_my_profile' if me else 'profile.get_profile', login=profile.login if not me else None) }}">Назад</a>
+<form action="" method="post">
+    <h4>Карточка</h4>
+    {{ pform.hidden_tag() }}
+    <div>
+        {{ pform.login_up.label }} {{ pform.login_up() }}
+    </div>
+    <div>
+        {{ pform.lastname_up.label }} {{ pform.lastname_up() }}
+    </div>
+    <div>
+        {{ pform.firstname_up.label }} {{ pform.firstname_up() }}
+    </div>
+    <div>
+        {{ pform.patronymic_up.label }} {{ pform.patronymic_up() }}
+    </div>
+    <div>
+        {{ pform.emp_num_up.label }} {{ pform.emp_num_up() }}
+    </div>
+    <div>
+        {{ pform.submit_up() }}
+        {% if not me and has_permission(['users.delete']) %}
+            {{ pform.delete_up() }}
+        {% endif %}
+    </div>
+    <div class="checkboxes">
+        <h4>{{ pform.roles_up.label }}</h4>
+        {% if not me %}
+            {% for value, label in pform.roles_up.choices %}
+                {% if not value == 1 %}
+                <input type="checkbox" name="{{ pform.roles_up.name }}"
+                       value="{{ value }}" {% if value in pform.roles_up.data %}checked{% endif %}>
+                {{ label }}<br>
+                {% endif %}
+            {% endfor %}
+            {% if pform.roles_up.errors %}
+                <span style="color: red;">{{ pform.roles_up.errors[0] }}</span>
+            {% endif %}
+        {% else %}
+        <p>Управление ролями недопустимо в профиле</p>
+        {% endif %}
+    </div>
+</form>
+{% endblock content %}

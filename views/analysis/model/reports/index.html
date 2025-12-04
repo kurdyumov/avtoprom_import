@@ -1,0 +1,12 @@
+{% extends 'index.html' %}
+{% block content %}
+<h3>Архив отчётов</h3>
+<a href="{{ url_for('model_source.index') }}">Назад</a>
+<!--Поисковик-->
+<!--Список файлов-->
+<ul>
+    {% for f in files %}
+    <li><a href="{{ url_for('reports.download', title=f) }}">{{ f }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock content %}

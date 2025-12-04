@@ -1,0 +1,41 @@
+{% extends 'index.html' %}
+{% block content %}
+<h3>Редактирование роли</h3>
+<a href="{{ url_for('roles.select_role', role=role) }}">Назад</a>
+<div class="flex">
+<form action="" method="post">
+    <div style="display: flex; gap: 50px;">
+        <div style="display: block;">
+            <h4>Описание</h4>
+            {{ form.hidden_tag() }}
+            <div>
+                {{ form.title_erf.label }} {{ form.title_erf() }}
+            </div>
+            <div>
+                {{ form.submit_erf() }}
+                {{ form.delete_erf() }}
+            </div>
+
+            <div class="checkboxes">
+                <h4>{{ form.permissions_erf.label }}</h4>
+                {% for value, label in form.permissions_erf.choices %}
+                    {% if not value == 1 %}
+                    <input type="checkbox" name="{{ form.permissions_erf.name }}"
+                           value="{{ value }}" {% if value in form.permissions_erf.data %}checked{% endif %}>
+                    {{ label }}<br>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div style="display: block;">
+            <h4>Рассылка</h4>
+            {% for value, label in form.broadcast_erf.choices %}
+                <input type="checkbox" name="{{ form.broadcast_erf.name }}"
+                       value="{{ value }}" {% if value in form.broadcast_erf.data %}checked{% endif %}>
+                {{ label }}<br>
+            {% endfor %}
+        </div>
+    </div>
+</form>
+</div>
+{% endblock content %}

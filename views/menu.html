@@ -1,0 +1,18 @@
+{% extends 'index.html' %}
+{% block content %}
+<h3>Добро пожаловать, {{ fio }}</h3>
+<ul class="menu">
+    {% if has_permission(['users.select']) %}
+        <li><a href="/users">Пользователи</a></li>
+    {% endif %}
+    {% if has_permission(['users.roles']) %}
+        <li><a href="/roles">Роли и группы</a></li>
+    {% endif %}
+    {% if has_permission(['analysis']) %}
+        <li><a href="/analysis">Анализ пр. показателей</a></li>
+    {% endif %}
+    {% if has_permission(['telegram']) %}
+        <li><a href="/telegram">Telegram-бот</a></li>
+    {% endif %}
+</ul>
+{% endblock content %}
